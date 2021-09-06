@@ -2,10 +2,15 @@ package com.example.databuddy;
 
 import com.example.databuddy.domain.DataPlan;
 import com.example.databuddy.domain.Subscriber;
+import com.example.databuddy.domain.UserDetails;
 import com.example.databuddy.service.DataUsageGenerator;
+import com.example.databuddy.util.Constant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 @Configuration
@@ -35,6 +40,18 @@ public class SeedingAppDataConfiguration {
                 new Subscriber("87777777", 4, dataUsageGenerator.generateDataUsage(100)),
                 new Subscriber("88888888", 4, dataUsageGenerator.generateDataUsage(35)),
                 new Subscriber("89999999", 5, dataUsageGenerator.generateDataUsage(40))
+        );
+    }
+
+    @Bean
+    public List<UserDetails> userDetails() {
+        List<? extends GrantedAuthority> authorities = List.of(
+                new SimpleGrantedAuthority(Constant.ADMIN)
+        );
+        return  List.of(
+                new UserDetails("hoangnh1@test.com" , "Test@1234",
+                        true, true, true,
+                        true, authorities, "auth0|6131c3dd3f236200694dfb92")
         );
     }
 }
